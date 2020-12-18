@@ -21,6 +21,11 @@ extern const sgx_ec256_public_t g_sp_pub_key;
  */
 void add_client_key(uint8_t *client_key_bytes, uint32_t client_key_size, char* username);
 
+/**
+ * Set the certificate used to authenticate users
+ */
+void add_client_publickey(uint8_t *client_key_bytes, uint32_t client_key_size, char* username); 
+
 void xor_shared_key(uint8_t *key_share_bytes, uint32_t key_share_size);
 /**
  * Encrypt the given plaintext using AES-GCM with a 128-bit key and write the result to

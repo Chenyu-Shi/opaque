@@ -90,6 +90,7 @@ typedef struct oe_shared_key_msg_t {
   // uint8_t test_key_ciphertext[OE_SHARED_KEY_CIPHERTEXT_SIZE];
   size_t user_cert_len;
   char user_cert[2000];
+  // TODO use flexible array instead of fixed length
 } oe_shared_key_msg_t;
 
 #endif // COMMON_H

@@ -374,6 +374,9 @@ std::unique_ptr<oe_shared_key_msg_t> ServiceProvider::process_enclave_report(oe_
 
   // Copy user certificate to msg2
   size_t cert_len = strlen(this->user_cert) + 1;
+  if (cert_len > 2000) {
+    throw std::runtime_error(std::string("certifcate too big (more than 2000 bytes), change buffer size or dynamically allocate)"));
+  }
   memcpy_s(shared_key_msg->user_cert, cert_len, this->user_cert, cert_len);
   shared_key_msg->user_cert_len = cert_len;
 

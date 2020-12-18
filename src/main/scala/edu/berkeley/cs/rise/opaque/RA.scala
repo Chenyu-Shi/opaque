@@ -33,7 +33,7 @@ object RA extends Logging {
     val intelCert = Utils.findResource("AttestationReportSigningCACert.pem")
 
     // FIXME: hardcoded path
-    val userCert = scala.io.Source.fromFile("/home/chester/opaque/user1.crt").mkString
+    val userCert = scala.io.Source.fromFile("/home/chenyu/opaque/user1.crt").mkString
 
     val keySharePath = sys.env("OPAQUE_KEY_SHARE")
     val clientKeyPath = sys.env("OPAQUE_CLIENT_KEY")

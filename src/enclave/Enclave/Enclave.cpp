@@ -304,6 +304,7 @@ static Crypto g_crypto;
 
 void ecall_finish_attestation(uint8_t *shared_key_msg_input,
                               uint32_t shared_key_msg_size) {
+
   try {
     (void) shared_key_msg_size;
     oe_shared_key_msg_t* shared_key_msg = (oe_shared_key_msg_t*) shared_key_msg_input;
@@ -342,16 +343,18 @@ void ecall_finish_attestation(uint8_t *shared_key_msg_input,
     name_len = name.len;
     std::string user_nam(nameptr, nameptr + name_len);
 
+    // TODO: integrate signature verification from root authority. see https://github.com/mc2-project/secure-xgboost/blob/82f2d1ac9d4e84a54389be118837d283b85c6513/enclave/include/enclave_context.h#L324
+    
+
     // TODO: Verify client's identity
     // if (std::find(CLIENT_NAMES.begin(), CLIENT_NAMES.end(), user_nam) == CLIENT_NAMES.end()) {
     //     LOG(FATAL) << "No such authorized client";
     // }
     // client_keys[user_nam] = user_symm_key;
 
-    // TODO: Store the client's public key
-    // std::vector<uint8_t> user_public_key(cert, cert + cert_len);
-    // client_public_keys.insert({user_nam, user_public_key});
-
+    // TODO: Store the client's public key// done 
+    add_client_publickey((uint8_t *) shared_key_msg->user_cert, shared_key_msg->user_cert_len, (char *)nameptr); 
+    
     // Set shared key for this client
     add_client_key(shared_key_plaintext, shared_key_plaintext_size, (char*) user_nam.c_str());
     xor_shared_key(key_share_plaintext, key_share_plaintext_size);
@@ -368,6 +371,7 @@ void ecall_finish_attestation(uint8_t *shared_key_msg_input,
   } catch (const std::runtime_error &e) {
     ocall_throw(e.what());
   }
+
 }
 
 /* 

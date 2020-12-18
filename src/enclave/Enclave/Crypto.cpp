@@ -29,7 +29,7 @@ std::unordered_map<std::string, std::unique_ptr<KeySchedule>> client_key_schedul
 std::unordered_map<std::string, std::vector<uint8_t>> client_keys;
 
 // map user name to public key
-// std::unordered_map<std::string, std::vector<uint8_t>> client_public_keys;
+std::unordered_map<std::string, std::vector<uint8_t>> client_public_keys;
 
 std::unique_ptr<KeySchedule> ks;
 
@@ -65,6 +65,17 @@ void add_client_key(uint8_t *client_key_bytes, uint32_t client_key_size, char* u
 
   initKeySchedule(username);
 
+}
+
+void add_client_publickey(uint8_t *client_key_bytes, uint32_t client_key_size, char* username) {
+  
+  if (client_key_size <= 0) {
+    throw std::runtime_error("Add client key failed: Invalid client key size");
+  }
+
+  std::vector<uint8_t> user_public_key(client_key_bytes, client_key_bytes + client_key_size);
+  std::string user_nam(username);
+  client_public_keys.insert({user_nam, user_public_key});
 }
 
 // void set_shared_key(uint8_t *shared_key_bytes, uint32_t shared_key_size) {
